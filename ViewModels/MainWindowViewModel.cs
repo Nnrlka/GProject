@@ -44,7 +44,7 @@ namespace GProject.ViewModels
             _transactions = new ObservableCollection<Transactions>();
             LoadTransactions();
         }
-        private async void LoadTransactions()
+        private async void LoadTransactions() 
         {
             try
             {
