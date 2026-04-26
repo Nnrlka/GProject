@@ -8,7 +8,6 @@ using GProject.Services;
 using Avalonia.Markup.Xaml.MarkupExtensions;
 using System.Security.Cryptography.X509Certificates;
 using System.Runtime.CompilerServices;
-using System.Collections.ObjectModel;
 
 namespace GProject.ViewModels
 {
