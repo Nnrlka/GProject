@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GProject.Models
 {
-    internal class Transactions
+    public class Transactions
     {
         public int Id { get;set; }
         public string Type { get;set; } = string.Empty;
