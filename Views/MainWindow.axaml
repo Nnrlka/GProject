@@ -30,8 +30,6 @@
                 <TextBlock Grid.Column="5" Text="Category" Foreground="Black"/>
             </Grid>
         </Border>
-
-
         <ListBox ItemsSource="{Binding Transactions}"
                  BorderThickness="1"
                  Background="White">

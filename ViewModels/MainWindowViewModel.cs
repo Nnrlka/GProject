@@ -11,28 +11,6 @@ namespace GProject.ViewModels
     public class MainWindowViewModel : INotifyPropertyChanged
     {
         private readonly DatabaseService _databaseService;
-        private ObservableCollection<Transactions> _transactions;
-        private string _status = "Loadingg...";
-
-        public ObservableCollection<Transactions> Transactions
-        {
-            get => _transactions;
-            set
-            {
-                _transactions = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string Status
-        {
-            get => _status;
-            set
-            {
-                _status = value;
-                OnPropertyChanged();
-            }
-        }
 
         public MainWindowViewModel()
         {
