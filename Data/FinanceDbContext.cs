@@ -28,7 +28,7 @@ public class FinanceDbContext : DbContext
             entity.Property(t => t.Category).HasColumnName("category").HasMaxLength(100);
         });
     }
-}
+} 
  
 
 
