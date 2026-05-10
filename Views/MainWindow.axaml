@@ -1,17 +1,52 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:GProject.ViewModels"
+        xmlns:m="using:GProject.Models"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="500"
         x:Class="GProject.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="GProject">
+        Title="Finance descriptions"
+        Width="900" Height="500"> 
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/> 
+    <DockPanel Margin="12">
+        <TextBlock DockPanel.Dock="Top"
+                   Text="{Binding Status}"
+                   Margin="0,0,0,8"
+                   FontWeight="SemiBold"/>
+        <Border DockPanel.Dock="Top" Background="#f0f0f0" Padding="8,4" CornerRadius="4" Margin="0,0,0,4">
+            <Grid ColumnDefinitions="48,88,*,100,120,120">
+                <TextBlock Grid.Column="0" Text="Id" Foreground="Black"/> 
+                <TextBlock Grid.Column="1" Text="type" Foreground="Black"/>
+                <TextBlock Grid.Column="2" Text="desctiption" Foreground="Black"/>
+                <TextBlock Grid.Column="3" Text="Sum" Foreground="Black"/>
+                <TextBlock Grid.Column="4" Text="Date" Foreground="Black"/>
+                <TextBlock Grid.Column="5" Text="Category" Foreground="Black"/>
+            </Grid>
+        </Border>
+
+
+        <ListBox ItemsSource="{Binding Transactions}"
+                 BorderThickness="1"
+                 Background="White">
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="m:Transactions">
+                    <Grid ColumnDefinitions="48,88,*,100,120,120" Margin="0,4">
+                        <TextBlock Grid.Column="0" Text="{Binding Id}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding Type}"/>
+                        <TextBlock Grid.Column="2" Text="{Binding Description}" TextWrapping="Wrap"/>
+                        <TextBlock Grid.Column="3" Text="{Binding amount, StringFormat={}{0:N2}}"/>
+                        <TextBlock Grid.Column="4" Text="{Binding Date, StringFormat={}{0:dd.MM.yyyy}}"/>
+                        <TextBlock Grid.Column="5" Text="{Binding Category}"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </DockPanel>
 </Window>

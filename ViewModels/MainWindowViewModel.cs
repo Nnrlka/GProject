@@ -1,17 +1,18 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using GProject.Models;
 using GProject.Services;
-using Avalonia.Markup.Xaml.MarkupExtensions;
+
 namespace GProject.ViewModels
 {
-    public partial class MainWindowViewModel : INotifyPropertyChanged
+    public class MainWindowViewModel : INotifyPropertyChanged
     {
         private readonly DatabaseService _databaseService;
         private ObservableCollection<Transactions> _transactions;
-        private string _status = "Загрузка...";
+        private string _status = "Loadingg...";
 
         public ObservableCollection<Transactions> Transactions
         {
@@ -39,25 +40,29 @@ namespace GProject.ViewModels
             _transactions = new ObservableCollection<Transactions>();
             LoadTransactions();
         }
-        private async void LoadTransactions() 
+
+        private async void LoadTransactions()
         {
             try
             {
-                Status = "Загрузка транзакций...";
-                Transactions = await _databaseService.GetTransactionsAsync();
-                Status = $"Загруженно {Transactions.Count} транзакций";
+                Status = "Loading transactions...";
+                Transactions = await _databaseService.GetAllTransactionsAsync();
+                Status = $"Loaded transactions: {Transactions.Count}";
             }
             catch (Exception ex)
             {
-                Status = $"Ошибка {ex.Message}";
+                Status = $"Ошибка: {ex.Message}";
             }
         }
-            public event PropertyChangedEventHandler? PropertyChanged;
-            
-            protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-                
+    }
+}
+
 
 
