@@ -6,9 +6,6 @@ using System.Threading.Tasks;
 using GProject.Models;
 using GProject.Services;
 using Avalonia.Markup.Xaml.MarkupExtensions;
-using System.Security.Cryptography.X509Certificates;
-using System.Runtime.CompilerServices;
-
 namespace GProject.ViewModels
 {
     public partial class MainWindowViewModel : INotifyPropertyChanged
@@ -56,7 +53,6 @@ namespace GProject.ViewModels
                 Status = $"Ошибка {ex.Message}";
             }
         }
-
             public event PropertyChangedEventHandler? PropertyChanged;
             
             protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
@@ -64,8 +60,5 @@ namespace GProject.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
                 
-        }
 
-
-    }
 

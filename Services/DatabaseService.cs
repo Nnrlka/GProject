@@ -1,16 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
-using Avalonia.Controls.Mixins;
 using GProject.Models;
 using Npgsql;
-
-
 namespace GProject.Services
 {
     public class DatabaseService
@@ -21,7 +14,6 @@ namespace GProject.Services
         {
             _connectionString = "Host=localhost; Port=5432; Database=FinanceDB; Username=postgres; password=postgres";
         }
-
         public async Task<ObservableCollection<Transactions>> GetTransactionsAsync()
         {
             var transactions = new ObservableCollection<Transactions>();
