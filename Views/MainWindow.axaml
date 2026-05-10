@@ -8,7 +8,7 @@
         x:Class="GProject.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="‘инансы группы Ч транзакции из PostgreSQL"
+        Title="Finance descriptions"
         Width="900" Height="500">
 
     <Design.DataContext>
