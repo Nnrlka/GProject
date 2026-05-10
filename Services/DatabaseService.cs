@@ -48,7 +48,6 @@ namespace GProject.Services
             {
                 return;
             }
-
             existing.Type = transaction.Type;
             existing.Description = transaction.Description;
             existing.amount = transaction.amount;
@@ -57,7 +56,6 @@ namespace GProject.Services
 
             await db.SaveChangesAsync();
         }
-
         public async Task DeleteTransactionAsync(int id)
         {
             await using var db = new FinanceDbContext(_options);
@@ -72,3 +70,5 @@ namespace GProject.Services
         }
     }
 }
+
+

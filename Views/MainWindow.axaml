@@ -8,8 +8,8 @@
         x:Class="GProject.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="Finance descriptions"
-        Width="900" Height="500">  
+        Title="Финансы группы — транзакции из PostgreSQL"
+        Width="900" Height="500">
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
@@ -20,18 +20,58 @@
                    Text="{Binding Status}"
                    Margin="0,0,0,8"
                    FontWeight="SemiBold"/>
-        <Border DockPanel.Dock="Top" Background="#f0f0f0" Padding="8,4" CornerRadius="4" Margin="0,0,0,4">
-            <Grid ColumnDefinitions="48,88,*,100,120,120">
-                <TextBlock Grid.Column="0" Text="Id" Foreground="Black"/> 
-                <TextBlock Grid.Column="1" Text="type" Foreground="Black"/>
-                <TextBlock Grid.Column="2" Text="desctiption" Foreground="Black"/>
-                <TextBlock Grid.Column="3" Text="Sum" Foreground="Black"/>
-                <TextBlock Grid.Column="4" Text="Date" Foreground="Black"/>
-                <TextBlock Grid.Column="5" Text="Category" Foreground="Black"/>
-            </Grid>
+
+        <Border DockPanel.Dock="Top"
+                Margin="0,0,0,12"
+                Padding="12"
+                CornerRadius="6"
+                Background="#fafafa"
+                BorderBrush="#dddddd"
+                BorderThickness="1">
+            <StackPanel Spacing="8">
+                <TextBlock Text="Новая транзакция" FontWeight="SemiBold"/>
+                <Grid ColumnDefinitions="100,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto" RowSpacing="6" ColumnSpacing="8">
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Тип" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="0" Grid.Column="1"
+                             Text="{Binding NewType}"
+                             Watermark="доход / расход"/>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Описание" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="1" Grid.Column="1"
+                             Text="{Binding NewDescription}"
+                             Watermark="за что платёж"/>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Сумма" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="2" Grid.Column="1"
+                             Text="{Binding NewAmountText}"
+                             Watermark="например 1200.50"/>
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Дата" VerticalAlignment="Center"/>
+                    <DatePicker Grid.Row="3" Grid.Column="1"
+                                SelectedDate="{Binding NewDate}"/>
+
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Категория" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="4" Grid.Column="1"
+                             Text="{Binding NewCategory}"
+                             Watermark="еда, транспорт…"/>
+                </Grid>
+                <Button Content="Добавить транзакцию"
+                        Command="{Binding AddTransactionCommand}"
+                        HorizontalAlignment="Left"
+                        MinWidth="220"/>
+            </StackPanel>
         </Border>
 
-
+        <Border DockPanel.Dock="Top" Background="#f0f0f0" Padding="8,4" CornerRadius="4" Margin="0,0,0,4">
+            <Grid ColumnDefinitions="48,88,*,100,120,120">
+                <TextBlock Grid.Column="0" Text="Id"/>
+                <TextBlock Grid.Column="1" Text="Тип"/>
+                <TextBlock Grid.Column="2" Text="Описание"/>
+                <TextBlock Grid.Column="3" Text="Сумма"/>
+                <TextBlock Grid.Column="4" Text="Дата"/>
+                <TextBlock Grid.Column="5" Text="Категория"/>
+            </Grid>
+        </Border>
         <ListBox ItemsSource="{Binding Transactions}"
                  BorderThickness="1"
                  Background="White">

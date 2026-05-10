@@ -1,47 +1,47 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using System.Globalization;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using GProject.Models;
 using GProject.Services;
 
 namespace GProject.ViewModels
 {
-    public class MainWindowViewModel : INotifyPropertyChanged
+    public partial class MainWindowViewModel : ObservableObject
     {
         private readonly DatabaseService _databaseService;
-        private ObservableCollection<Transactions> _transactions;
-        private string _status = "Loadingg...";
-
-        public ObservableCollection<Transactions> Transactions
-        {
-            get => _transactions;
-            set
-            {
-                _transactions = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string Status
-        {
-            get => _status;
-            set
-            {
-                _status = value;
-                OnPropertyChanged();
-            }
-        }
 
         public MainWindowViewModel()
         {
             _databaseService = new DatabaseService();
-            _transactions = new ObservableCollection<Transactions>();
-            LoadTransactions();
+            _ = LoadTransactionsAsync();
         }
 
-        private async void LoadTransactions()
+        [ObservableProperty]
+        private ObservableCollection<Transactions> transactions = new();
+
+        [ObservableProperty]
+        private string status = "Загрузка...";
+
+        [ObservableProperty]
+        private string newType = string.Empty;
+
+        [ObservableProperty]
+        private string newDescription = string.Empty;
+
+        [ObservableProperty]
+        private string newAmountText = string.Empty;
+
+        [ObservableProperty]
+        private DateTimeOffset? newDate = DateTimeOffset.Now;
+
+        [ObservableProperty]
+        private string newCategory = string.Empty;
+
+        [RelayCommand]
+        private async Task LoadTransactionsAsync()
         {
             try
             {
@@ -55,14 +55,54 @@ namespace GProject.ViewModels
             }
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        [RelayCommand]
+        private async Task AddTransactionAsync()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            try
+            {
+                if (string.IsNullOrWhiteSpace(NewType))
+                {
+                    Status = "Type of transactions.";
+                    return;
+                }
+
+                var normalizedAmount = NewAmountText.Trim().Replace(',', '.');
+                if (!decimal.TryParse(normalizedAmount, NumberStyles.Number, CultureInfo.InvariantCulture, out var amount))
+                {
+                    Status = "Sum must be numberr";
+                    return;
+                }
+
+                if (NewDate is null)
+                {
+                    Status = "Choose date";
+                    return;
+                }
+
+                var transaction = new Transactions
+                {
+                    Type = NewType.Trim(),
+                    Description = NewDescription.Trim(),
+                    amount = amount,
+                    Date = NewDate.Value.DateTime,
+                    Category = string.IsNullOrWhiteSpace(NewCategory) ? string.Empty : NewCategory.Trim()
+                };
+
+                await _databaseService.AddTransactionAsync(transaction);
+                Status = "Transaction added";
+                NewType = string.Empty;
+                NewDescription = string.Empty;
+                NewAmountText = string.Empty;
+                NewDate = DateTimeOffset.Now;
+                NewCategory = string.Empty;
+                await LoadTransactionsAsync();
+            }
+            catch (Exception ex)
+            {
+                Status = $"Problem with adding: {ex.Message}";
+            }
         }
     }
 }
-
 
 
