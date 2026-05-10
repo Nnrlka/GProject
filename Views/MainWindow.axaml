@@ -9,7 +9,7 @@
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="Finance descriptions"
-        Width="900" Height="500"> 
+        Width="900" Height="500">  
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
